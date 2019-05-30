@@ -1,0 +1,521 @@
+<div id="inc" [ngSwitch]="temp">
+	
+	<!--w/app-->
+ 	<ng-container *ngSwitchCase="'x/app'">
+ 		<b>w/app: </b> <- url: ... /<br>
+ 		<!--<router-outlet></router-outlet>-->
+ 		<!--- <i>di/</i>se_outletTarget: {{ se_outletTarget }}-->
+ 		<span class="test">test</span><br>
+ 		<button mat-raised-button color="primary">Basic</button>
+ 		<div [ngSwitch]="se_outletTarget">
+ 			<w-page-auth dl="-" *ngSwitchCase="'auth'"></w-page-auth>
+ 			<w-main-prehled dl="-" variant="taskGroups" *ngSwitchCase="'app/task-groups'"></w-main-prehled>
+ 			<w-main-prehled dl="-" variant="tasks" *ngSwitchCase="'app/tasks'"></w-main-prehled>
+ 		</div>
+ 	</ng-container>
+ 	
+ 	<ng-container *ngSwitchCase="'app'"> <!--vis/semUI-->
+ 		<div class="ui menu">
+			<div class="item">
+		  		<h2 class="ui header">
+					<i class="clock icon"></i>
+					<div class="content">
+						<b>NG Timer</b>
+					</div>
+				</h2>
+		  	</div>
+		  	<div class="right menu">
+		  		<!--<div class="item">
+		  			Themes
+		  		</div>-->
+		  		<div class="ui simple dropdown item" suiDropdown>
+		  			<div class="text">Themes</div>
+		  			<i class="dropdown icon"></i>
+		  			<div class="menu" suiDropdownMenu>
+		  				<a class="item"><i class="edit icon"></i> theme A</a>
+		  				<a class="item"><i class="edit icon"></i> theme B</a>
+		  				<a class="item"><i class="edit icon"></i> theme C</a>
+		  			</div>
+		  		</div>
+				<div class="item">
+					<button class="ui red button" (click)="logOut()">log out</button>
+				</div>
+			</div>
+		</div>
+		<div class="ui basic segment">
+			<div [ngSwitch]="se_outletTarget">
+	 			<w-page-auth dl="-" *ngSwitchCase="'auth'"></w-page-auth>
+	 			<w-main-prehled dl="-" variant="taskGroups" *ngSwitchCase="'app/task-groups'"></w-main-prehled>
+	 			<w-main-prehled dl="-" variant="tasks" *ngSwitchCase="'app/tasks'"></w-main-prehled>
+	 		</div>
+		</div>
+ 	</ng-container>
+ 	
+ 	<ng-container *ngSwitchCase="'xapp'">
+ 		<!--<p-button label="Click" ></p-button>-->
+ 		<!--<button class="ui primary button">button</button>-->
+ 		<!--<div class="ui card" suiPopup popupText="You can customise my placement!" popupInverted [popupPlacement]="position">
+		    <div class="content">
+		        <div class="header">Positioning</div>
+		        <div class="description">
+		            Popup placement can be anywhere around the content.
+		        </div>
+		    </div>
+		</div>-->
+		<!--<sui-modal [isClosable]="true" (dismissed)="alert($event)" #modal>
+		    <div class="header">Example</div>
+		    <div class="content">
+		        <p>Modal content</p>
+		    </div>
+		    <div class="actions">
+		        <button class="ui red button" (click)="modal.deny()">Cancel</button>
+		        <button class="ui green button" (click)="modal.approve('done')" autofocus>OK</button>
+		    </div>
+		</sui-modal>-->
+ 	</ng-container>
+
+ 	<!--w/pageAuth < vis/ -->
+ 	<ng-container *ngSwitchCase="'w/pageAuth'"> <!--OK-->
+ 		<b>{{ dl }} w/pageAuth: </b>
+ 		<!--- w/loger-->
+ 		<w-loger [dl]="'-'+dl"></w-loger>
+ 	</ng-container>
+
+ 	<ng-container *ngSwitchCase="'w/loger'"> <!--D2/vis/semUI-->
+		<sui-modal [isClosable]="false" #modal>
+		    <div class="header">
+		    	<span name="ui/t-title">LogIn/Sign</span>
+				<!--<div name="ui/b-switch" class="ui right floated button" (click)="switchAction('b-switch')">switch</div>-->
+		    </div>
+		    <div class="content">
+		        <!--<p><-n/ w/logIn</p>
+		        <p><-n/ w/signIn</p>-->
+		        <div [ngSwitch]="se_action">
+		 			<w-log-in [dl]="'-'+dl" *ngSwitchCase="'logIn'"></w-log-in>
+		 			<w-sign-in [dl]="'-'+dl" *ngSwitchCase="'signIn'"></w-sign-in>
+		 		</div>
+		    </div>
+		    <div class="actions">
+		        <!--<div name="ui/b-vstup" class="fluid ui red button">vstup</div>-->
+		    </div>
+		</sui-modal>
+ 	</ng-container>
+ 	<ng-container *ngSwitchCase="'xw/loger'">
+ 		<!--vis/test-->
+ 		<b>{{ dl }} w/loger: </b><br>
+ 		<!---<i>(i)ui-b</i><span (click)="click($event)">/switch</span><br>
+ 		-<i>(i)ui-b</i>/vstup<br>
+ 		<div [ngSwitch]="se_action">
+ 			<w-log-in [dl]="'-'+dl" *ngSwitchCase="'logIn'"></w-log-in>
+ 			<w-sign-in [dl]="'-'+dl" *ngSwitchCase="'signIn'"></w-sign-in>
+ 		</div>-->
+
+ 		<!--vis/mat-angular-->
+ 		<!--<div mat-dialog-title>
+ 			<h1>LogIn/SignIn</h1>
+ 			<button mat-button>switch</button>
+ 		</div>
+		<div mat-dialog-content>
+		  	<div [ngSwitch]="se_action">
+	 			<w-log-in [dl]="'-'+dl" *ngSwitchCase="'logIn'"></w-log-in>
+	 			<w-sign-in [dl]="'-'+dl" *ngSwitchCase="'signIn'"></w-sign-in>
+	 		</div>
+		</div>
+		<div mat-dialog-actions>
+		  <button mat-button>Vstup</button>
+		</div>-->
+		<!--vis/mat-primeFace-->
+ 	</ng-container>
+
+ 	<ng-container *ngSwitchCase="'w/logIn'"> <!--D2/vis/semUI-->
+ 		<div><b>log-in as Quest</b> - <i>email:</i> quest@email.com, <i>password:</i> quest1234</div>
+ 		<div class="ui segments">
+			<div class="ui segment">
+				<form class="ui form" [formGroup]="formLogIn">
+					<div class="field">
+						<label>email</label>
+						<input type="text" name="email" formControlName="email" placeholder="email" >
+					</div>
+					<div class="field">
+						<label>password</label>
+						<input type="text" name="password" formControlName="password" placeholder="password">
+					</div>
+				</form>
+				<p style="color:red;"><b>info: {{ se_infoMessage }}</b></p>
+			</div>
+			<div class="ui center aligned segment">
+				<div name="ui/b-logIn" class="ui fluid small red button" (click)="logIn()">Log in</div>
+				<a href="/" onclick="return false" (click)="switchAction('b-register')">(or)<b>register</b></a>
+			</div>
+		</div>
+ 	</ng-container>
+ 	<ng-container *ngSwitchCase="'xw/logIn'">
+ 		<!--<b>{{ dl }} w/logIn: </b><br>-->
+ 		<!---<i>(i/o)ui-fo</i>/user - // email:'', password:''<br>
+ 		-<i>(o)ui-t</i>/info message - // value:{{se_infoMessage}},<br>
+ 		-<i>(o/i)ui-b</i>/logIn - // <span>block:{{se_block}},</span><br>
+ 		-<i>(i)ui-b</i>/register - // x-->
+ 		
+ 		<!--vis/mat-angular-->
+ 		<!--<mat-card class="example-card">
+ 			<mat-card-content>
+ 				<form class="logIn-form">
+				  <mat-form-field class="example-full-width">
+				    <input matInput placeholder="email" value="">
+				  </mat-form-field>
+				  <mat-form-field class="example-full-width">
+				  	<input matInput placeholder="password" value="">
+				  </mat-form-field>
+				</form>
+				<span>(info message)</span>
+ 			</mat-card-content>
+ 			<mat-card-actions>
+ 				<button mat-button>log in</button>
+ 				<span><b>(or) register</b></span>
+ 			</mat-card-actions>
+ 		</mat-card>-->
+ 	</ng-container>
+
+ 	<ng-container *ngSwitchCase="'w/signIn'"> <!--D2/vis/semUI-->
+ 		<div class="ui segments">
+			<div class="ui segment">
+				<form class="ui form" [formGroup]="formSignIn">
+					<div class="field">
+						<label>name</label>
+						<input type="text" name="name" formControlName="name" placeholder="name">
+					</div>
+					<div class="field">
+						<label>email</label>
+						<input type="text" name="email" formControlName="email" placeholder="email">
+					</div>
+					<div class="field">
+						<label>password</label>
+						<input type="text" name="password" formControlName="password" placeholder="password">
+					</div>
+					<div class="field">
+						<label>check password</label>
+						<input type="text" name="check password" formControlName="checkPassword" placeholder="check password">
+					</div>
+				</form>
+				<p>info: {{ se_infoMessage }}</p>
+			</div>
+			<div class="ui center aligned segment">
+				<div name="ui/b-signIn" class="ui fluid small red button" (click)="signIn()">Register</div>
+				<a href="/" onclick="return false" (click)="switchAction('b-logIn')">(or) <b>logIn</b></a>
+			</div>
+		</div>
+ 	</ng-container>
+ 	
+ 	<ng-container *ngSwitchCase="'xw/signIn'">
+ 		<!--vis/test-->
+ 		<!--<b>{{ dl }} w/signIn: </b><br>-->
+ 		<!---<i>(i/o)ui-fo</i>/user - // email:'', name:'', password:'', passwordCheck:''<br>
+ 		-<i>(o)ui-t</i>/info message - // value:{{se_infoMessage}},<br>
+ 		-<i>(i/o)ui-b</i>/register - // <span>block:{{se_block}},</span><br>
+ 		-<i>(i)ui-b</i>/logIn - // x-->
+
+ 		<!--vis/mat-angular-->
+ 		<!--<mat-card class="example-card">
+ 			<mat-card-content>
+ 				<form class="signIn-form">
+				  <mat-form-field class="example-full-width">
+				    <input matInput placeholder="name" value="">
+				  </mat-form-field>
+				  <mat-form-field class="example-full-width">
+				    <input matInput placeholder="email" value="">
+				  </mat-form-field>
+				  <mat-form-field class="example-full-width">
+				  	<input matInput placeholder="password" value="">
+				  </mat-form-field>
+				  <mat-form-field class="example-full-width">
+				  	<input matInput placeholder="passwordCheck" value="">
+				  </mat-form-field>
+				</form>
+				<span>(info message)</span>
+ 			</mat-card-content>
+ 			<mat-card-actions>
+ 				<button mat-button>register</button>
+ 				<span><b>(or) log in</b></span>
+ 			</mat-card-actions>
+ 		</mat-card>-->
+ 	</ng-container>
+
+ 	<ng-container *ngSwitchCase="'w/mainPrehled'"><!--D2/vis/semUI-->
+ 		<!--<b>{{ dl }} w/mainPrehled: </b><br>-->
+ 		<!--<span><- w/itemEditor</span><br>-->
+ 		<!--<span><- w/prehledItems</span>-->
+
+ 		<w-item-editor *ngIf="se_show" [dl]="'-'+dl"></w-item-editor>
+ 		<w-prehled-items [dl]="'-'+dl" [variant]="this.variant"></w-prehled-items>
+ 	</ng-container>
+ 	<ng-container *ngSwitchCase="'xw/mainPrehled'"> 
+ 		<!--vis/test-->
+ 		<b>{{ dl }} w/mainPrehled: </b><br>
+ 		<span><- w/itemEditor</span><br>
+ 		<span><- w/prehledItems</span>
+ 		<i>(x)ui-t</i>/LOGO - // x<br>
+ 		<i>(i)ui-b</i>/logOut - // x<br>
+ 		<!--v2.0.-->
+ 		<!---<i>(i)ui-b</i>/go back - // x<br>
+ 		-<i>(x)ui-t</i>/LOGO - // x<br>-->
+ 		<w-item-editor [dl]="'-'+dl"></w-item-editor>
+ 		<w-prehled-items [dl]="'-'+dl" [variant]="this.variant"></w-prehled-items>
+
+ 		<!--vis/mat-angular-->
+ 		<!--<w-item-editor [dl]="'-'+dl"></w-item-editor>
+ 		<mat-grid-list cols="1" rowHeight="2:1">
+ 			<mat-grid-tile>
+ 				<mat-grid-tile-header>
+ 					<h1>LOGO</h1>
+ 					<button mat-button>logOut</button>
+ 				</mat-grid-tile-header>
+ 				<w-prehled-items [dl]="'-'+dl" [variant]="this.variant"></w-prehled-items>
+ 			</mat-grid-tile>
+ 		</mat-grid-list>-->
+ 	</ng-container>
+
+ 	<ng-container *ngSwitchCase="'w/itemEditor'"><!--D3/vis/semUI-->
+ 		<sui-modal [isClosable]="false" #modal>
+		    <div class="header">
+				<span name="ui/t-title">Creat/Edit Item</span>
+				<div class="ui right floated small icon buttons">
+					<button class="ui basic button" (click)="close(modal)">
+				  		<i class="close icon"></i>
+				  	</button>
+				</div>
+			</div>
+			<div class="content">
+				<div class="ui fluid input">
+				  	<input type="text" [formControl]="formItem" placeholder="item name">
+				</div>
+			</div>
+			<div class="actions">
+				<div name="ui/b-save" class="ui red button" (click)="save(modal)">Save</div>
+				<div name="ui/b-cancle" class="ui red button" (click)="close(modal)">Cancle</div>
+			</div>
+		</sui-modal>
+ 		<!-- show: {{ se_show }}, 
+ 		<ng-container *ngIf="se_show">
+ 			Item Editor		
+ 		</ng-container> -->
+ 	</ng-container>
+ 	
+ 	<ng-container *ngSwitchCase="'xw/itemEditor'">
+ 		<div *ngIf="se_show">
+ 			<!--<b>{{ dl }} w/itemEditor: </b><br>
+	 		-<i>(i)ui-b</i>/close - // x<br>
+	 		-<i>(o)ui-t</i>/nadpis [itemTypeName] - // itemTypeName: <br>
+	 		-<i>(i/o)ui-ti</i>/item name - // changed-value: {{ se_itemName }} <br>
+	 		-<i>(i)ui-b</i>/save - // x<br>
+	 		-<i>(i)ui-b</i>/cancle - // x<br>-->
+	 		<!--<span>in_newItemName: {{ se_newItemName }}</span>-->
+	 		
+	 		<!--vis/ang-material-->
+	 		<!--<div mat-dialog-title>
+	 			<h1>create/edit</h1>
+	 			<button mat-button>close</button>
+	 		</div>
+			<div mat-dialog-content>
+				<form class="itemEditor-form">
+					<mat-form-field class="example-full-width">
+						<input matInput placeholder="name" value="">
+					</mat-form-field>
+				</form>
+			</div>
+			<div mat-dialog-actions>
+			  	<button mat-button>save</button>
+			  	<button mat-button>cancle</button>
+			</div>-->
+ 		</div>
+ 	</ng-container>
+
+ 	<ng-container *ngSwitchCase="'w/prehledItems'"> <!-- vis/semUI-->
+ 		<!--<b>{{ dl }} w/prehledItems</b> - var: {{ variant }}: /<br>-->
+ 		<w-prehled-items-header [dl]="'-'+dl" [variant]="variant"></w-prehled-items-header><br>
+ 		<div [ngSwitch]="se_variant">
+ 			<div class="ui raised segment">
+				<h3 class="ui header">created tasks</h3>
+				<div class="ui divider"></div>
+	 			<ng-container *ngSwitchCase="'tasks'">
+	 				<ng-container *ngFor="let item of se_taskItems">
+	 					<w-task-item [task]="item" [dl]="'-'+dl"></w-task-item><br>
+	 				</ng-container>
+	 			</ng-container>
+	 		</div>
+ 		</div>
+ 	</ng-container>
+ 	<ng-container *ngSwitchCase="'xw/prehledItems'">
+ 		<!--vis/test-->
+ 		<!--<b>{{ dl }} w/prehledItems</b> - var: {{ variant }}: /<br>-->
+ 		<w-prehled-items-header [dl]="'-'+dl" [variant]="variant"></w-prehled-items-header>
+ 		<div [ngSwitch]="se_variant">
+ 			<!--v2.0-->
+ 			<!--<ng-container *ngSwitchCase="'taskGroups'">
+				<ng-container *ngFor="let item of se_taskGroupItems">
+ 					<w-task-group-item [taskGroup]="item" [dl]="'-'+dl"></w-task-group-item>
+ 				</ng-container>
+ 			</ng-container>-->
+ 			
+ 			<ng-container *ngSwitchCase="'tasks'">
+ 				<ng-container *ngFor="let item of se_taskItems">
+ 					<w-task-item [task]="item" [dl]="'-'+dl"></w-task-item>
+ 				</ng-container>
+ 			</ng-container>
+ 		</div>
+ 		
+ 		<!--vis/mat-angular-->
+ 		<!-- mat/girid -->
+ 		<!--<mat-grid-list cols="1" rowHeight="2:1">
+ 			<mat-grid-tile>
+ 				<mat-grid-tile-header>
+ 					<w-prehled-items-header [dl]="'-'+dl" [variant]="variant"></w-prehled-items-header>
+ 				</mat-grid-tile-header>
+ 				<!~~ tasks ~~>
+ 				<ng-container *ngSwitchCase="'tasks'">
+ 					<ng-container *ngFor="let item of se_taskItems">
+ 						<!~~ mat/list ~~>
+ 						<mat-list>
+ 							<mat-list-item *ngFor="let link of links">
+ 								<w-task-item [task]="item" [dl]="'-'+dl"></w-task-item>
+ 							</mat-list-item>
+ 						</mat-list>
+ 					</ng-container>
+ 				</ng-container>
+ 			</mat-grid-tile>
+ 		</mat-grid-list>-->
+ 	</ng-container>
+
+ 	<ng-container *ngSwitchCase="'w/prehledItemsHeader'"> <!--D4/vis/semUI-->
+ 		<!--<b>{{ dl }} w/prehledItemHeader</b> - var: {{ variant }}: /<br>-->
+ 		<div class="ui raised segment">
+ 			<div class="ui secondary menu">
+				<div class="item">
+					<button class="ui labeled icon red button" (click)="showWItemEditor()">
+					  <i class="plus icon"></i>
+					  Task
+					</button>
+					<!--<div class="ui red button">CREATE</div>-->
+				</div>
+				<div class="right item">
+					<div class="ui labels">
+						<div class="ui label">
+						  	{{ se_createdTasks }}<!--pocet: 2-->
+						</div>
+						<div class="ui label">
+						  	{{ se_celkOdpCas }}<!--odpCas: 30:00-->
+						</div>
+					</div>
+			   </div>
+			</div>
+ 		</div>
+ 	</ng-container>
+ 	<ng-container *ngSwitchCase="'xw/prehledItemsHeader'">
+ 		<!--vis/test-->
+ 		<!--<b>{{ dl }} w/prehledItemHeader</b> - var: {{ variant }}: /<br>-->
+ 		<!---<i>(i)ui-b</i>/create item - // x<br>
+ 		-<i>(x)ui-t</i>/Tasks view:<br>
+ 		<i>(o)ui-t</i>/nadpis [setTypeName] - // setTypeName:<br>--> <!--v2.0-->
+ 		-<i>(o)ui-bg</i>/pocet /tg - // x<br>
+ 		-<i>(o)ui-bg</i>/celkem /straveny cas - // x<br>-->
+ 		
+ 		<!--vis/ang-material-->
+ 		<!--<mat-toolbar color="primary">
+		  <mat-toolbar-row>
+		    <button mat-button>create</button>
+		    <span style="flex: 1 1 auto;"></span>
+		    <mat-chip-list>
+			  <mat-chip>celkPocet</mat-chip>
+			  <mat-chip>odpCas</mat-chip>
+			</mat-chip-list>
+		  </mat-toolbar-row>
+		</mat-toolbar>-->
+ 	</ng-container>
+ 	
+ 	<!--v2.0-->
+ 	<ng-container *ngSwitchCase="'w/taskGroupItem'">
+ 		<b>{{ dl }} w/taskGroupItem: - name: {{ taskGroup.name }}, id: {{ taskGroup.id }} /</b><br>
+ 		
+ 		-<i>(i/o)ui-et</i>/name - // switchState:<br>
+ 		<span *ngIf="se_switchState == false">--<i>(o)ui-t</i>/name - // value:<br></span>
+ 		<span *ngIf="se_switchState == true">--<i>(i/o)ui-ti</i>/name - // value:<br></span>
+ 		
+ 		-<i>(o)ui-t</i>/celk. odp cas - // value: <br>
+ 		-<i>(i)ui-b</i>/go to - // x<br>
+ 		-<i>(i)ui-b</i>/delete - // x<br>
+ 		<span>et_name: {{ se_switchState }}</span>
+ 		<span>ti_name: {{ taskGroup.name }}</span>
+ 		<span>t_name: {{ taskGroup.name }}</span>
+ 		<span>open: {{ se_open }}</span>
+ 		<span>clekOdpCas: {{ se_celkOdpCas }}</span>-->
+ 	</ng-container>
+
+ 	<ng-container *ngSwitchCase="'w/taskItem'"> <!--D4/vis/semUI-->
+ 		<!--<b>{{ dl }} w/taskItem: </b> - name: {{ task.name }}, id: {{ task.id }} /<br>-->
+ 		<div class="ui clearing red segment">
+			<!--<p><- w/taskItem</p>-->
+			<!--<h3 class="ui left floated header">task 2</h3>-->
+			<h5 class="ui left floated header" (click)="showWItemEditor()">
+				<i class="clock outline small icon"></i>
+				<div class="content">
+					{{ task.name }}, id:{{task.id}}
+				</div>
+			</h5>
+			<div class="ui right floated tiny icon red buttons">
+				<button class="ui basic button" (click)="delete()">
+			  		<i class="close red icon"></i>
+			  	</button>
+			</div>
+			<button class="ui right floated disabled medium button">
+				<b>{{ convertTaskTime(task.odpCas) }}</b>
+			</button>
+			<div class="ui right floated tiny icon buttons">
+				<button class="ui basic button" (click)="startTimer()">
+					<i class="play icon"></i>
+				</button>
+				<button class="ui basic button" (click)="resetTimer()">
+					<i class="pause icon"></i>
+				</button>
+			</div>
+		</div>
+ 	</ng-container>
+ 	<ng-container *ngSwitchCase="'xw/taskItem'">
+ 		<!--vis/test-->
+ 		<b>{{ dl }} w/taskItem: </b> - name: {{ task.name }}, id: {{ task.id }} /<br>
+ 		<!---<i>(i)ui-b</i>/open/close - // state: <br>--> <!--v2.0-->
+
+ 		<i>(o)ui-t</i>/name - // value:<br>
+ 		<i>(i)ui-b</i>/edit - // switchState:<br> 
+ 		<!--v2.0-->
+ 		<!---<i>(i/o)ui-et</i>/name - // switchState:<br> 
+ 		<span *ngIf="se_switchState == false">--<i>(o)ui-t</i>/name - // value:<br></span>
+ 		<span *ngIf="se_switchState == true">--<i>(i/o)ui-ti</i>/name - // value:<br></span>-->
+
+ 		-<i>(i)ui-b</i>/start-pause-resume - // state: <br>
+ 		-<i>(i)ui-b</i>/reset - // x<br>
+ 		-<i>(i)ui-bg</i>/odpCas - // value: {{ task.odpCas }} <br>
+
+ 		-<i>(i)ui-b</i>/delete - // x<br>-->
+ 		<!--v2.0-->
+ 		<!--<w-time-counter *ngIf="task.open" [counter]="task.timeCounter" [dl]="'-'+dl"></w-time-counter>-->
+ 		
+ 		<!--vis/ang-material-->
+ 		<!--<mat-card>
+ 			<span><b>name<b></span>
+ 			<span style="flex: 1 1 auto;"></span>
+ 			<mat-icon svgIcon="thumbs-up"></mat-icon>
+ 			<mat-icon svgIcon="thumbs-up"></mat-icon>
+ 			<span><b>odpCas<b></span>
+ 			<button mat-icon-button>
+			  <mat-icon aria-label="">delete</mat-icon>
+			</button>
+ 		</mat-card>-->
+ 	</ng-container>
+
+ 	<!--v2.0-->
+ 	<!--<ng-container *ngSwitchCase="'w/timeCounter'">
+ 		<b>{{ dl }} w/timeCounter: </b> - name: {{ counter.name }}, id: {{ counter.id }}, state: {{ counter.state }} /<br>
+ 		-<i>(i)ui-b</i>/start-pause-resume - // state: <br>
+ 		-<i>(i)ui-b</i>/reset - // x<br>
+ 		-<i>(o)ui-t</i>/odpCas - // value: {{ counter.odpCas }} <br>
+ 	</ng-container>-->
+</div>
