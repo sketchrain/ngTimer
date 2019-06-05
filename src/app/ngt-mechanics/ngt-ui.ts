@@ -277,11 +277,9 @@ class STAction {
 	}
 
 	startEvs(events:{ type:string, ctx:IEvCtxDef }[]) {
-
 	}
 
 	stopEvs(events:{ type:string, ctx:IEvCtxDef }[]) {
-
 	}
 }
 

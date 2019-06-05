@@ -1,5 +1,7 @@
 // angular
 import { Injectable } from '@angular/core';
+// rxjs
+import { from, Observable, Subject, BehaviorSubject } from 'rxjs';
 // Flow
 import { Category, Managers, ISignal, Signal, AXStream} from '../../flow/core/fl-core';
 // app
@@ -212,7 +214,7 @@ export class Interactions extends Category {
 
 		// AUTH
 		// --------------------------------------------------------
-		stream = this.im.action('[Auth] logIn') // < P < fa(D2/InUT,OK/In) // << R/2h15m
+		stream = this.im.action('[Auth] logIn') // < t/Server // < P < fa(D2/InUT,OK/In) // << R/2h15m
 			.operation('', (action:Signal, p:any) => { // logIn to server
 				let user = action.payload.user;
 				return this.im.utils.modifyAction(action, { res: this.serverMock.logIn(user, action.payload.dbg) });
@@ -246,12 +248,12 @@ export class Interactions extends Category {
 						return action.use('[Auth] DEauthentizace', {}, stream.am);
 				}
 			});
-		stream = this.im.action('[Auth] register')
-			.operation('', (action:Signal, p:any) => { // signIn to server
+		stream = this.im.action('[Auth] register') // < t/Server
+			.Xoperation('', (action:Signal, p:any) => { // signIn to server
 				let user = action.payload.user;
 				return this.im.utils.modifyAction(action, { res: this.serverMock.register(user, action.payload.dbg) });
 			})
-			.XasyncOperation('', (action:Signal) => { // overeni uzivatele na serveru;
+			.asyncOperation('', (action:Signal) => { // overeni uzivatele na serveru;
 				let user = action.payload.user;
 				return this.server.register(user, (res:any) => {
 					return this.im.utils.modifyAction(action, { res: res });
@@ -299,12 +301,12 @@ export class Interactions extends Category {
 				return a.addToOutput('[State] changed state', { changedState: changedState }, stream.am);
 			})
 			.next('[Nav] presmerovani (app/auth)');
-		stream = this.im.action('[Auth] authentizace', null)
-			.operation('op/get user', (action:Signal, p:any) => { // Mock server api/getUser
+		stream = this.im.action('[Auth] authentizace', null) // < t/Server
+			.Xoperation('op/get user', (action:Signal, p:any) => { // Mock server api/getUser
 				let userToken = this.jwtService.getToken();
 				return this.im.utils.modifyAction(action, { res: this.serverMock.getUser(userToken, action.payload.dbg_getUser) });
 			})
-			.XasyncOperation('op/get user', (action:Signal) => { // overeni uzivatele na serveru
+			.asyncOperation('op/get user', (action:Signal) => { // overeni uzivatele na serveru
 				//let userSession:any = this.sm.dm.selectOne('o/UserSession').result;
 				let userToken = this.jwtService.getToken();
 				return this.server.getUser(userToken, (res:any) => {
@@ -342,11 +344,11 @@ export class Interactions extends Category {
 
 		// CRUD (Akce)
 		// --------------------------------------------------------
-		/*ok/N*/stream = this.im.action('[CRUD] create') // { DNode, cfg, dbg } // /se->
-			.operation('', (action:Signal) => {
+		/*ok/N*/stream = this.im.action('[CRUD] create') // { DNode, cfg, dbg } // /se-> // < t/Server
+			.Xoperation('', (action:Signal) => {
 				return this.im.utils.modifyAction(action, { res: this.serverMock.create(action.payload.DNode, action.payload.cfg, action.payload.dbg) } );
 			})
-			.XasyncOperation('', (action:Signal) => { // overeni uzivatele na serveru;
+			.asyncOperation('', (action:Signal) => { // overeni uzivatele na serveru;
 				return this.server.create(action.payload.DNode, action.payload.cfg, (res:any) => {
 					return this.im.utils.modifyAction(action, { res: res });
 				});
@@ -355,11 +357,11 @@ export class Interactions extends Category {
 				return { action:'create', view:'v/Tasks', data: p.res.data } 
 			})
 			.se('[Info Change] change ukazatel - pocet tasks');
-		/*N*/stream = this.im.action('[CRUD] delete') // { DNode, id }
-			.operation('', (action:Signal) => {
+		/*N*/stream = this.im.action('[CRUD] delete') // { DNode, id } // < t/Server
+			.Xoperation('', (action:Signal) => {
 				return this.im.utils.modifyAction(action, { res: this.serverMock.delete(action.payload.DNode, action.payload.id, action.payload.dbg) } );
 			})
-			.XasyncOperation('', (action:Signal) => { // overeni uzivatele na serveru;
+			.asyncOperation('', (action:Signal) => { // overeni uzivatele na serveru;
 				return this.server.delete(action.payload.DNode, action.payload.id, (res:any) => {
 					return this.im.utils.modifyAction(action, { res: res });
 				});
@@ -380,8 +382,8 @@ export class Interactions extends Category {
 				return { action:'delete', view:'v/Tasks', data: p.res.data } 
 			})
 			.se('[Info Change] change ukazatel - pocet tasks');
-		/*N*/stream = this.im.action('[CRUD] update') // { DNode, id, cfg, (dbg) } // < td/dFlow
-			.operation('', (action:Signal, p:any) => {
+		/*N*/stream = this.im.action('[CRUD] update') // { DNode, id, cfg, (dbg) } // < td/dFlow // < t/Server
+			.Xoperation('', (action:Signal, p:any) => {
 				let a = null;
 				if(p.localy) { // local update
 					let dNodeToUpdate = this.sm.dm.selectByID(action.payload.DNode, action.payload.id).result;
@@ -399,10 +401,24 @@ export class Interactions extends Category {
 				}
 				return a;
 			})
-			.XasyncOperation('', (action:Signal) => { // overeni uzivatele na serveru;
-				return this.server.update(action.payload.DNode, action.payload.id, action.payload.cfg, (res:any) => {
-					return this.im.utils.modifyAction(action, { res: res });
-				});
+			.asyncOperation('', (action:Signal, p:any) => { // overeni uzivatele na serveru;
+				if(p.localy) {
+					let dNodeToUpdate = this.sm.dm.selectByID(action.payload.DNode, action.payload.id).result;
+
+					let cfg = action.payload.cfg;
+					Object.keys(cfg).map((cfgKey) => {
+						let newValue = cfg[cfgKey];
+						Object.defineProperty(dNodeToUpdate, cfgKey, { value: newValue })
+					})
+
+					let a = this.im.utils.modifyAction(action, { res: { data: dNodeToUpdate }  } );
+					return new BehaviorSubject(a);
+				}
+				else {
+					return this.server.update(action.payload.DNode, action.payload.id, action.payload.cfg, (res:any) => {
+						return this.im.utils.modifyAction(action, { res: res });
+					});
+				}
 			})
 			.next('[View] change/update views', (p) => { 
 				return { action:'update', view:'v/Tasks', data: p.res.data } 
@@ -564,14 +580,14 @@ export class Interactions extends Category {
 				// widget.items = view.items; // < X
 			});
 		// /Output-> actions
-		stream = this.im.action('[Query Init] query') // {  query:Query, viewType:string, widget:Widget }
-			// <- a/[View Change] init views
-			.operation('op/select data for views', (action:Signal) => { //  < t/X
+		stream = this.im.action('[Query Init] query') // {  query:Query, viewType:string, widget:Widget } // < t/Server
+			// <- a/[View Change] init views / [View] change/update views
+			.Xoperation('op/select data for views', (action:Signal) => { //  < t/X
 				//return this.am.utils.modifyAction(action, { res: this.serverMock.select(action.payload.query, action.payload.dbg) })
 				let dbg = 0;
 				return this.im.utils.modifyAction(action, { res: this.serverMock.select(action.payload.query.q, action.payload.dbg_opSelect) });
 			})
-			.XasyncOperation('op/select data for views', (action:Signal) => { // overeni uzivatele na serveru;
+			.asyncOperation('op/select data for views', (action:Signal) => { // overeni uzivatele na serveru;
 				return this.server.select(action.payload.query.q, (res:any) => {
 					return this.im.utils.modifyAction(action, { res: res });
 				});

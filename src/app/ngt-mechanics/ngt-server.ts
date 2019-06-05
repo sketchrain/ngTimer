@@ -170,12 +170,11 @@ export class ServerAPI {
 	
 	projectsCount:number = 0;
 	tasksCount:number = 0;
-
 	respones:SResponse[];
 
 	constructor (
 		private apiService: ApiService
-		) {}
+	) {}
 
 	// AUTH
 	logIn(user:IM.IDUser, clbResponse:any, dbg?:any):Subject<any>  { // OK/ 15m
