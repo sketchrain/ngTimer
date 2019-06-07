@@ -7,7 +7,7 @@
 </h3>
 
 ## Funkcionality
-### Funkcionality - ukazky | <a href="https://warm-ridge-65097.herokuapp.com/">LIVE example</a>
+### Funkcionality - ukazky | <a href="https://ngtimer.herokuapp.com/">LIVE example</a>
 
 <p align="center">
   <img src="https://i.ibb.co/r25bGxN/ng-Timer-pic2.png"/>
