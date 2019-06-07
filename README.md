@@ -10,8 +10,8 @@
 ### Funkcionality - ukazky | <a href="https://ngtimer.herokuapp.com/">LIVE example</a>
 
 <p align="center">
-  <img src="https://i.ibb.co/r25bGxN/ng-Timer-pic2.png"/>
-  <img src="https://i.ibb.co/r25bGxN/ng-Timer-pic2.png"/>
+  <img width="350" height="333" src="https://i.ibb.co/bJKDZPZ/ngt-vid1.gif"/>
+  <img width="350" height="333" src="https://i.ibb.co/qkyHC59/ngt-vid2.gif"/>
 </p>
 
 Po přihlášení může uživatel vytvářet a editovat jednotlivé tasky, pro které může být zahájen odpočet času. Odpočet času může být pozastaven, nebo resetován.
