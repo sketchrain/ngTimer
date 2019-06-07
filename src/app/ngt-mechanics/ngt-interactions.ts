@@ -38,6 +38,10 @@ export class Interactions extends Category {
 					console.log('-> In/input actions - emited sta/%s, time/%s', stAction.type, stAction.payload._timer.time, stAction.payload);
 					this.im.dispatch(stAction.type, stAction.payload);
 				})
+
+				if(inputAction.payload._setState == ':stop') {
+					this.im.dispatch(inputAction.type, inputAction.payload);
+				}
 			}
 			else {
 				console.log('-> In/input actions: ', inputActions);
@@ -215,19 +219,21 @@ export class Interactions extends Category {
 		// AUTH
 		// --------------------------------------------------------
 		stream = this.im.action('[Auth] logIn') // < t/Server // < P < fa(D2/InUT,OK/In) // << R/2h15m
-			.operation('', (action:Signal, p:any) => { // logIn to server
+			.Xoperation('', (action:Signal, p:any) => { // logIn to server
 				let user = action.payload.user;
 				return this.im.utils.modifyAction(action, { res: this.serverMock.logIn(user, action.payload.dbg) });
 			})
-			.XasyncOperation('', (action:Signal) => { // overeni uzivatele na serveru;
+			.asyncOperation('', (action:Signal) => { // overeni uzivatele na serveru;
 				let user = action.payload.user;
 				return this.server.logIn(user, (res:any) => {
 					return this.im.utils.modifyAction(action, { res: res });
 				});
 			})
 			.operation('', (a:Signal, p:any) => { // op/save token
-				let token = p.res.data.token;
-				this.jwtService.saveToken(token);
+				if(p.res.succes) {
+					let token = p.res.data.token;
+					this.jwtService.saveToken(token);
+				}
 				return a;
 			})
 			.setState((a:Signal, p:any) => { // nastevní feedback messahe pro logIn
@@ -260,8 +266,10 @@ export class Interactions extends Category {
 				});
 			})
 			.operation('', (a:Signal, p:any) => { // op/save token
-				let token = p.res.data.token;
-				this.jwtService.saveToken(token);
+				if(p.res.succes) {
+					let token = p.res.data.token;
+					this.jwtService.saveToken(token);
+				}
 				return a;
 			})
 			.setState((a:Signal, p:any) => { // nastevní feedback messahe pro logIn
@@ -283,6 +291,10 @@ export class Interactions extends Category {
 				}
 			});
 		stream = this.im.action('[Auth] logOut') // { X }
+			.operation('', (a:Signal) => {
+				this.im.stActionsManager.stopAll();
+				return a;
+			})
 			.next('[Auth] DEauthentizace') 
 		stream = this.im.action('[Auth] DEauthentizace', null) // { X }
 			.operation('op/destroy user token', (action:Signal) => { // destoroy saved token
@@ -355,8 +367,7 @@ export class Interactions extends Category {
 			})
 			.next('[View] change/update views', (p) => { 
 				return { action:'create', view:'v/Tasks', data: p.res.data } 
-			})
-			.se('[Info Change] change ukazatel - pocet tasks');
+			});
 		/*N*/stream = this.im.action('[CRUD] delete') // { DNode, id } // < t/Server
 			.Xoperation('', (action:Signal) => {
 				return this.im.utils.modifyAction(action, { res: this.serverMock.delete(action.payload.DNode, action.payload.id, action.payload.dbg) } );
@@ -381,7 +392,8 @@ export class Interactions extends Category {
 			.next('[View] change/update views', (p) => { 
 				return { action:'delete', view:'v/Tasks', data: p.res.data } 
 			})
-			.se('[Info Change] change ukazatel - pocet tasks');
+			.se('[Info Change] change ukazatel - pocet tasks')
+			.se('[Info Change] change ukazatel - celk odp cas');
 		/*N*/stream = this.im.action('[CRUD] update') // { DNode, id, cfg, (dbg) } // < td/dFlow // < t/Server
 			.Xoperation('', (action:Signal, p:any) => {
 				let a = null;
@@ -431,8 +443,16 @@ export class Interactions extends Category {
 		stream = this.im.action('[Akce St] set odp cas')
 			.operation('', (action:Signal, p:any) => {
 				console.log('-> provedeni akce a/%s', action.type, action.payload);
-				window.localStorage.setItem(p._id, p._timer.time);
-				let a = this.im.utils.modifyAction(action, { cfg: { odpCas: p._timer.time } } );
+				let a = null;
+
+				if(p._setState == ':stop') {
+					a = this.im.utils.modifyAction(action, { cfg: { odpCas: 0 } } );
+				}
+				else {
+					window.localStorage.setItem(p._id, p._timer.time);
+					a = this.im.utils.modifyAction(action, { cfg: { odpCas: p._timer.time } } );
+				}
+
 				return a;
 			})
 			.next('[CRUD] update', (p:any) => { return { DNode:p.DNode, id:p._id, cfg:p.cfg, localy: true } });
@@ -526,12 +546,19 @@ export class Interactions extends Category {
 					case "update":
 						vTasks.items = vTasks.items.map((dnTask) => {
 							if(dnTask.id == p.modifiedData.id) {
-								return p.modifiedData;
+								
+								let cfg = p.modifiedData;
+								Object.keys(cfg).map((cfgKey) => {
+									let newValue = cfg[cfgKey];
+									Object.defineProperty(dnTask, cfgKey, { value: newValue })
+								})
+								return dnTask;
 							}
 							else {
 								return dnTask;
 							}
 						})
+						//this.sm.dm.update('v/Tasks', vTasks);
 						break;
 				}
 				return a.addToOutput('[State] changed state', { changedState: vTasks }, stream.am);
@@ -648,7 +675,9 @@ export class Interactions extends Category {
 					return a.use(null, { _ctx:'op/no view set'}, stream.am);
 				}
 				// widget.items = view.items; // < X
-			});
+			})
+			.next('X')
+			.se('[Info Change] change ukazatel - pocet tasks');
 	}
 
 	interactionV2() {

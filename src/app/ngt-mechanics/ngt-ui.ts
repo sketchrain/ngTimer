@@ -82,7 +82,7 @@ export class UIEvents extends Category {
 				{ type:'[UI Event] click', ctx: { w:'w/PrehledItemsHeader', ui:'b-create' } }, // OK
 				{ type:'[UI Event] click', ctx: { w:'w/ItemEditor', ui:'b-close' } }, // X 
 			]);
-		this.ia('[CRUD] create', (evp:any) => {   // {X} //ok
+		this.ia('[CRUD] create', (evp:any) => { // {X} //ok
 			console.log('---> se payload from ev [CRUD] create', evp);
 			return { DNode: evp.create.DNode, cfg: { name: this.getItemName('w/ItemEditor') } } 
 		})
@@ -90,7 +90,7 @@ export class UIEvents extends Category {
 				//{ type:'[UI Event] click', ctx: { w:'w/PrehledItemsHeader', ui:'b-create' } },
 				{ type:'[UI Event] click', ctx: { w:'w/ItemEditor', ui:'b-save', useCtx:'create' } }, // D1,OK /30m
 			]);
-		this.ia('[CRUD] update', (evp:any) => {   // {X} //ok
+		this.ia('[CRUD] update', (evp:any) => { // {X} //ok
 			console.log('---> se payload from ev [CRUD] update', evp);
 			return { DNode: evp.update.DNode, id:evp.update.id, cfg: { name: this.getItemName('w/ItemEditor') } } 
 		})
@@ -120,8 +120,9 @@ export class UIEvents extends Category {
 			return { DNode:evp.action.DNode, _id:evp.action.id  };
 		}) // {X}
 			.evs([
+				{ type:'[UI Event] click', ctx: { w:'w/taskItem', ui:'b-stop' }, aSetState:':stop' },
 				{ type:'[UI Event] click', ctx: { w:'w/taskItem', ui:'b-start-pause-resume' }, aSetState:':start' }, // D2,OK /20m
-				{ type:'[UI Event] click', ctx: { w:'w/taskItem', ui:'b-reset' }, aSetState:':stop' } // D2,OK /40m
+				{ type:'[UI Event] click', ctx: { w:'w/taskItem', ui:'b-reset' }, aSetState:':pause' } // D2,OK /40m
 			])
 			// .statesEvs((sia:any) => { // < t/Dcs
 			// 	sia.startEvs([ { type:'[UI Event] click', ctx: { w:'w/taskItem', ui:'b-start-pause-resume' } } ]);

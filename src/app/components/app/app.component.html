@@ -15,31 +15,34 @@
  	</ng-container>
  	
  	<ng-container *ngSwitchCase="'app'"> <!--vis/semUI-->
- 		<div class="ui menu">
+ 		<div class="ui top fixed borderless menu">
 			<div class="item">
-		  		<h2 class="ui header">
-					<i class="clock icon"></i>
-					<div class="content">
-						<b>NG Timer</b>
+			  		<h2 class="ui header">
+						<i class="icon">
+							<img src="../../../assets/ngt_logo.png">
+						</i>
+						<div class="content" style="font-family:trebuchet MS;">
+							<b><i>Timer</i></b>
+						</div>
+					</h2>
+			</div>
+			<div class="item" style="color: grey;">
+				<h3><i>create tasks and track time ...</i></h3>
+			</div>
+			<div class="right menu">
+			  		<!--<div class="item">
+			  			Themes
+			  		</div>-->
+			  		<div class="ui simple dropdown item" suiDropdown>
+			  			<div class="text">themes</div>
+			  			<i class="dropdown icon"></i>
+			  			<div class="menu" suiDropdownMenu>
+			  				<a class="item"><i class="edit icon"></i>Dark - not yet avilable</a>
+			  			</div>
+			  		</div>
+					<div class="item">
+						<button class="ui red button" (click)="logOut()">Log out</button>
 					</div>
-				</h2>
-		  	</div>
-		  	<div class="right menu">
-		  		<!--<div class="item">
-		  			Themes
-		  		</div>-->
-		  		<div class="ui simple dropdown item" suiDropdown>
-		  			<div class="text">Themes</div>
-		  			<i class="dropdown icon"></i>
-		  			<div class="menu" suiDropdownMenu>
-		  				<a class="item"><i class="edit icon"></i> theme A</a>
-		  				<a class="item"><i class="edit icon"></i> theme B</a>
-		  				<a class="item"><i class="edit icon"></i> theme C</a>
-		  			</div>
-		  		</div>
-				<div class="item">
-					<button class="ui red button" (click)="logOut()">log out</button>
-				</div>
 			</div>
 		</div>
 		<div class="ui basic segment">
@@ -76,28 +79,28 @@
 
  	<!--w/pageAuth < vis/ -->
  	<ng-container *ngSwitchCase="'w/pageAuth'"> <!--OK-->
- 		<b>{{ dl }} w/pageAuth: </b>
+ 		<!--<b>{{ dl }} w/pageAuth: </b>-->
  		<!--- w/loger-->
  		<w-loger [dl]="'-'+dl"></w-loger>
  	</ng-container>
 
  	<ng-container *ngSwitchCase="'w/loger'"> <!--D2/vis/semUI-->
-		<sui-modal [isClosable]="false" #modal>
-		    <div class="header">
-		    	<span name="ui/t-title">LogIn/Sign</span>
+		<sui-modal [isClosable]="false" size="tiny" #modal>
+			<div class="header">
+		    	<span name="ui/t-title">{{ se_action == 'logIn' ? 'Log in' : 'Sign up' }}</span>
 				<!--<div name="ui/b-switch" class="ui right floated button" (click)="switchAction('b-switch')">switch</div>-->
-		    </div>
-		    <div class="content">
-		        <!--<p><-n/ w/logIn</p>
-		        <p><-n/ w/signIn</p>-->
-		        <div [ngSwitch]="se_action">
-		 			<w-log-in [dl]="'-'+dl" *ngSwitchCase="'logIn'"></w-log-in>
-		 			<w-sign-in [dl]="'-'+dl" *ngSwitchCase="'signIn'"></w-sign-in>
-		 		</div>
-		    </div>
-		    <div class="actions">
+			</div>
+			<div class="scrolling content">
+				<!--<p><-n/ w/logIn</p>
+				<p><-n/ w/signIn</p>-->
+				<div [ngSwitch]="se_action">
+					<w-log-in [dl]="'-'+dl" *ngSwitchCase="'logIn'"></w-log-in>
+					<w-sign-in [dl]="'-'+dl" *ngSwitchCase="'signIn'"></w-sign-in>
+				</div>
+			</div>
+			<div class="actions">
 		        <!--<div name="ui/b-vstup" class="fluid ui red button">vstup</div>-->
-		    </div>
+			</div>
 		</sui-modal>
  	</ng-container>
  	<ng-container *ngSwitchCase="'xw/loger'">
@@ -128,24 +131,26 @@
  	</ng-container>
 
  	<ng-container *ngSwitchCase="'w/logIn'"> <!--D2/vis/semUI-->
- 		<div><b>log-in as Quest</b> - <i>email:</i> quest@email.com, <i>password:</i> quest1234</div>
+ 		<div class="ui center aligned secondary segment">
+ 			<b>Log in as <i>quest</i></b> - <i>email:</i> quest@email.com, <i>password:</i> quest1234
+ 		</div>
  		<div class="ui segments">
 			<div class="ui segment">
 				<form class="ui form" [formGroup]="formLogIn">
 					<div class="field">
-						<label>email</label>
+						<!--<label>email</label>-->
 						<input type="text" name="email" formControlName="email" placeholder="email" >
 					</div>
 					<div class="field">
-						<label>password</label>
-						<input type="text" name="password" formControlName="password" placeholder="password">
+						<!--<label>password</label>-->
+						<input type="password" name="password" formControlName="password" placeholder="password">
 					</div>
 				</form>
-				<p style="color:red;"><b>info: {{ se_infoMessage }}</b></p>
+				<!--<p style="color:red;"><b>info: {{ se_infoMessage }}</b></p>-->
 			</div>
 			<div class="ui center aligned segment">
 				<div name="ui/b-logIn" class="ui fluid small red button" (click)="logIn()">Log in</div>
-				<a href="/" onclick="return false" (click)="switchAction('b-register')">(or)<b>register</b></a>
+				<a href="/" onclick="return false" (click)="switchAction('b-register')">(or)<b>Sign up</b></a>
 			</div>
 		</div>
  	</ng-container>
@@ -181,27 +186,27 @@
 			<div class="ui segment">
 				<form class="ui form" [formGroup]="formSignIn">
 					<div class="field">
-						<label>name</label>
+						<!--<label>name</label>-->
 						<input type="text" name="name" formControlName="name" placeholder="name">
 					</div>
 					<div class="field">
-						<label>email</label>
+						<!--<label>email</label>-->
 						<input type="text" name="email" formControlName="email" placeholder="email">
 					</div>
 					<div class="field">
-						<label>password</label>
-						<input type="text" name="password" formControlName="password" placeholder="password">
+						<!--<label>password</label>-->
+						<input type="password" name="password" formControlName="password" placeholder="password">
 					</div>
-					<div class="field">
-						<label>check password</label>
-						<input type="text" name="check password" formControlName="checkPassword" placeholder="check password">
-					</div>
+					<!--<div class="field">
+						<!~~<label>check password</label>~~>
+						<input type="password" name="check password" formControlName="checkPassword" placeholder="check password">
+					</div>-->
 				</form>
-				<p>info: {{ se_infoMessage }}</p>
+				<!--<p>info: {{ se_infoMessage }}</p>-->
 			</div>
 			<div class="ui center aligned segment">
-				<div name="ui/b-signIn" class="ui fluid small red button" (click)="signIn()">Register</div>
-				<a href="/" onclick="return false" (click)="switchAction('b-logIn')">(or) <b>logIn</b></a>
+				<div name="ui/b-signIn" class="ui fluid small red button" (click)="signIn()">Sign up</div>
+				<a href="/" onclick="return false" (click)="switchAction('b-logIn')">(or) <b>Log in</b></a>
 			</div>
 		</div>
  	</ng-container>
@@ -275,9 +280,10 @@
  	</ng-container>
 
  	<ng-container *ngSwitchCase="'w/itemEditor'"><!--D3/vis/semUI-->
- 		<sui-modal [isClosable]="false" #modal>
+ 		<sui-modal [isClosable]="false" size="tiny" #modal>
 		    <div class="header">
-				<span name="ui/t-title">Creat/Edit Item</span>
+				<span name="ui/t-title">{{ se_useCtxData == 'create' ? 'Create Task' : 'Edit Task' }} </span>
+				<!--<span name="ui/t-title">Set name</span>-->
 				<div class="ui right floated small icon buttons">
 					<button class="ui basic button" (click)="close(modal)">
 				  		<i class="close icon"></i>
@@ -286,7 +292,7 @@
 			</div>
 			<div class="content">
 				<div class="ui fluid input">
-				  	<input type="text" [formControl]="formItem" placeholder="item name">
+				  	<input type="text" [formControl]="formItem" placeholder="task name">
 				</div>
 			</div>
 			<div class="actions">
@@ -333,14 +339,24 @@
  		<!--<b>{{ dl }} w/prehledItems</b> - var: {{ variant }}: /<br>-->
  		<w-prehled-items-header [dl]="'-'+dl" [variant]="variant"></w-prehled-items-header><br>
  		<div [ngSwitch]="se_variant">
- 			<div class="ui raised segment">
-				<h3 class="ui header">created tasks</h3>
-				<div class="ui divider"></div>
-	 			<ng-container *ngSwitchCase="'tasks'">
-	 				<ng-container *ngFor="let item of se_taskItems">
-	 					<w-task-item [task]="item" [dl]="'-'+dl"></w-task-item><br>
-	 				</ng-container>
-	 			</ng-container>
+ 			<div class="ui raised center aligned placeholder text container segments">
+				<div class="ui segment">
+					<h3 style="color: grey;" class="ui header">TASKS</h3>
+					<div class="ui divider"></div>
+		 			<ng-container *ngSwitchCase="'tasks'">
+		 				<ng-container *ngFor="let item of se_taskItems">
+		 					<w-task-item [task]="item" [dl]="'-'+dl"></w-task-item><br>
+		 				</ng-container>
+		 				<!--<h3 style="color: grey;" *ngIf="se_taskItems.length == 0">create new task ...</h3>-->
+		 			</ng-container>
+		 			<div style="color: grey;" class="ui icon header" *ngIf="se_taskItems.length == 0">
+		 				<i class="clock icon"></i>
+		 				Create new task ...
+		 			</div>
+	 			</div>
+	 			<div class="ui secondary segment">
+				    <i>by DM</i> - <a href="" style="color: grey;"><b>GitHub - Repository</b></a>
+				</div>
 	 		</div>
  		</div>
  	</ng-container>
@@ -387,8 +403,14 @@
 
  	<ng-container *ngSwitchCase="'w/prehledItemsHeader'"> <!--D4/vis/semUI-->
  		<!--<b>{{ dl }} w/prehledItemHeader</b> - var: {{ variant }}: /<br>-->
- 		<div class="ui raised segment">
- 			<div class="ui secondary menu">
+ 		<div class="ui text container basic segment">
+	 		<br>
+	 	</div>
+ 		<div class="ui center aligned text container secondary segment">
+	 		<i><b>example app</b> for <a href=""><b>Flow</b></a> (experimental reactive framework)</i>
+	 	</div>
+ 		<div class="ui raised text container segment">
+	 		<div class="ui secondary menu">
 				<div class="item">
 					<button class="ui labeled icon red button" (click)="showWItemEditor()">
 					  <i class="plus icon"></i>
@@ -398,16 +420,18 @@
 				</div>
 				<div class="right item">
 					<div class="ui labels">
-						<div class="ui label">
-						  	{{ se_createdTasks }}<!--pocet: 2-->
-						</div>
+						<b style="color: grey;"><i>time: </i></b>
 						<div class="ui label">
 						  	{{ se_celkOdpCas }}<!--odpCas: 30:00-->
+						</div>
+						<b style="color: grey;"><i> for tasks: </i></b>
+						<div class="ui label">
+						  	{{ se_createdTasks }}<!--pocet: 2-->
 						</div>
 					</div>
 			   </div>
 			</div>
- 		</div>
+	 	</div>
  	</ng-container>
  	<ng-container *ngSwitchCase="'xw/prehledItemsHeader'">
  		<!--vis/test-->
@@ -454,10 +478,10 @@
  		<div class="ui clearing red segment">
 			<!--<p><- w/taskItem</p>-->
 			<!--<h3 class="ui left floated header">task 2</h3>-->
-			<h5 class="ui left floated header" (click)="showWItemEditor()">
+			<h5 class="ui left floated header">
 				<i class="clock outline small icon"></i>
 				<div class="content">
-					{{ task.name }}, id:{{task.id}}
+					{{ task.name }}
 				</div>
 			</h5>
 			<div class="ui right floated tiny icon red buttons">
@@ -469,6 +493,9 @@
 				<b>{{ convertTaskTime(task.odpCas) }}</b>
 			</button>
 			<div class="ui right floated tiny icon buttons">
+				<button class="ui basic button" (click)="stopTimer()">
+					<i class="step backward icon"></i>
+				</button>
 				<button class="ui basic button" (click)="startTimer()">
 					<i class="play icon"></i>
 				</button>
@@ -476,6 +503,7 @@
 					<i class="pause icon"></i>
 				</button>
 			</div>
+			<button class="ui right floated basic button" (click)="showWItemEditor()"><b>edit</b></button>
 		</div>
  	</ng-container>
  	<ng-container *ngSwitchCase="'xw/taskItem'">

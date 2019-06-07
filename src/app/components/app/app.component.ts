@@ -181,8 +181,8 @@ export class AppComponent extends CWidget   {
 
 		// Init
 		//this.im.dispatch('[Test Init] test init', { widget: 'w/App' });
-		//this.im.dispatch('[Nav] pristup (/)');
-		this._tests.testAppInputsInit();
+		this.im.dispatch('[Nav] pristup (/)');
+		//this._tests.testAppInputsInit();
 
 		//this._testsLoger.logerTests();
 		//this.m.am.dispatch('[View Component] init, reload data', { fromCtx: undefined, widget:'w/App', variant: undefined, query:{}, view:'' });
@@ -527,6 +527,7 @@ export class WItemEditor extends CWidget {
 	// selectors
 	se_itemName:string = '';
 	se_show:boolean = false;
+	se_useCtxData:string = 'create';
 	dNode:any;
 
 	constructor(m:Managers, private fb:FormBuilder) {
@@ -541,6 +542,7 @@ export class WItemEditor extends CWidget {
 			this.m.al.log('CP,Lis', 'cp/listen to', 'updated data/value: ', [], { data: dNode });
 			// this.se_show = dNode.show;
 			// this.se_itemName = dNode.itemName;
+			this.se_useCtxData = dNode.useCtx;
 			this.dNode = dNode;
 		});
 	}
@@ -872,6 +874,12 @@ export class WTaskItem extends CWidget {
 
 	delete() {
 		this.ui.dispatch('[UI Event] click', { w:'w/taskItem', ui:'b-delete', delete: { DNode:M.Task, id: this.task.id } });
+	}
+
+	stopTimer() {
+		this.ui.dispatch('[UI Event] click', { w:'w/taskItem', ui:'b-stop', action: { DNode:M.Task, id:this.task.id }, 
+			dbg: { succes: true }
+		});
 	}
 
 	startTimer() { // < start-pause-resume

@@ -831,6 +831,12 @@ export class STActionsManager { // < (2/10api)
 		}
 	}
 
+	stopAll() {
+		this.stActions.forEach((stAction:STAction) => {
+			stAction.pause();
+		})
+	}
+
 	// ...
 	createSTAction(action:any) { // OK/13m
 
